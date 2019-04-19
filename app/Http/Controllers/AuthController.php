@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\RegisterRequest;
@@ -17,20 +17,20 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $credentials = $request->only(['email', 'password']);
-        $token = auth()->attempt($credentials);
-        if(!$token) {
+            $credentials = $request->only(['email', 'password']);
+            $token = auth()->attempt($credentials);
+            if(!$token) {
+                return response()->json([
+                    'message' => 'Please check credentials and try again.'
+                ], 401);
+            }
             return response()->json([
-                'message' => 'Wrong credentials'
-            ], 401);
+                'token' => $token,
+                'type' => 'Bearer',
+                'expires_in' => auth()->factory()->getTTL() * 60,
+                'user' => auth()->user()
+            ]);
         }
-        return response()->json([
-            'token' => $token,
-            'type' => 'Bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60,
-            'user' => auth()->user()
-        ]);
-    }
     public function register(RegisterRequest $request)
     {
         $user = new User();
