@@ -8,7 +8,7 @@ class Image extends Model
 {
     protected $fillable = [
         'url',
-        // 'order'
+        // 'order',
         'gallery_id'
     ];
 

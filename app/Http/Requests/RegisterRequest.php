@@ -34,7 +34,7 @@ class RegisterRequest extends FormRequest
                 'min:8',
                 new OneWordMin()    
             ],
-            'all terms' => 'accepted' 
+            'terms' => 'accepted' 
         ];
     }
 }
